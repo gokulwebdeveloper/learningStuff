@@ -1,0 +1,27 @@
+<!DOCTYPE HTML>
+
+<html>
+   <body>
+<h1>HTML5 - Web Workers</h1>
+<p>A web worker is a JavaScript running in the background, without affecting the performance of the page.</p>
+<p> the postMessage() method - which is used to post a message back to the HTML page.</p>
+
+<div id="showData">
+ </div>  
+
+<script type="text/javascript">
+    if(window.Worker){
+        var worker;
+        worker = new Worker("workers.js");
+
+        worker.onmessage = function(event){
+            document.getElementById("showData").innerHTML = event.data;
+        };
+    } else {
+        alert("Sorry, your browser do not support web worker.");
+    }
+
+</script>
+
+   </body>
+</html>

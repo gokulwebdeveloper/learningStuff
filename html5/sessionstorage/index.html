@@ -1,0 +1,19 @@
+<!DOCTYPE HTML>
+
+<html>
+   <body>
+      <script type = "text/javascript">
+         
+       sessionStorage.setItem("lastname", "Smith");
+       console.log(sessionStorage.getItem("lastname"));
+      </script>
+		Set Item :
+      <p>sessionStorage.setItem("lastname", "Smith");</p>
+      Get Item :
+      <p> document.getElementById("result").innerHTML = sessionStorage.getItem("lastname");</p>
+      <p>document.getElementById("result").innerHTML = sessionStorage.lastname;</p>
+      Remove Item :
+      <p>sessionStorage.removeItem("lastname");</p>
+
+   </body>
+</html>

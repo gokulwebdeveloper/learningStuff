@@ -1,0 +1,71 @@
+<!DOCTYPE HTML>
+
+<html>
+   <body>
+<h1>HTML5 - Web SQL Database</h1>
+<h2>The Core Methods</h2>
+<p>There are following three core methods defined in the spec that I am going to cover in this tutorial −</p>
+<ul class="list">
+<li><p><b>openDatabase</b> − This method creates the database object either using existing database or creating new one.</p></li>
+<li><p><b>transaction</b> − This method gives us the ability to control a transaction and performing either commit or rollback based on the situation.</p></li>
+<li><p><b>executeSql</b> − This method is used to execute actual SQL query.</p></li>
+</ul>
+<h3>Example :</h3>
+
+<input type="text" name="username" value="" id="userid" />
+<button name="Save" onclick="save();">Add User</button>
+<div id="showData">
+ </div>  
+
+
+<script type="text/javascript">
+    var openDb = openDatabase("userDetails","1.0",'contains userdetails','2*1024*1024');
+     openDb.transaction(function(tx){
+           tx.executeSql('CREATE TABLE IF NOT EXISTS USERS (id INTEGER PRIMARY KEY, username)');
+     });
+
+
+    function ShowErrorMessage(){
+      console.log("no data inserterd");
+    }
+     function showdatacleardata() {
+       console.log("data inserterd");
+    }
+     function save(){
+         var t= document.getElementById('userid').value;
+         var insertStatement='insert into USERS(username)values(?)';
+         openDb.transaction(function(tx){
+            tx.executeSql(insertStatement, [t], showData, ShowErrorMessage);
+         });    
+     
+     } 
+    
+
+     function showData(){
+         document.getElementById('showData').innerHTML="";
+        openDb.transaction(function(tx){
+            tx.executeSql("select * from USERS", [], function (tx, results) { 
+               var len = results.rows.length, i; 
+               msg = "<p>Found rows: " + len + "</p>"; 
+               document.getElementById('showData').innerHTML +=  msg; 
+      
+               for (i = 0; i < len; i++) { 
+                  msg = "<p><b>" + results.rows.item(i).username + "</b></p>"; 
+                   document.getElementById('showData').innerHTML +=  msg; 
+               } 
+            }, null);
+         });   
+     }
+    showData();
+
+    /* openDb.transaction(function(tx){
+     tx.executeSql("DROP TABLE USERS",[], 
+       function(tx,results){console.log("Successfully Dropped")},
+       function(tx,error){console.log("Could not delete")}
+   );
+   });*/
+
+</script>
+
+   </body>
+</html>
